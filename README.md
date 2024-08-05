@@ -1,8 +1,6 @@
 # LACF
-This is the PyTorch implementation of the paper that we submitted for under review to CIKM2024.
+This is the PyTorch implementation of the paper that we submitted for under review to AAAI2025.
 >LACF: Graph Self-Supervised Learning via Learnable Augmentation for Collaborative Filtering
-
->Submitted to 33rd ACM International Conference on Information and Knowledge Management (CIKM2024).
 
 >Anonymous Author(s)
 
