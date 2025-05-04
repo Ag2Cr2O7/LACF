@@ -1,6 +1,6 @@
 # LACF
-This is the PyTorch implementation of the paper that we submitted for under review to AAAI2025.
->LACF: Graph Self-Supervised Learning via Learnable Augmentation for Collaborative Filtering
+This is the PyTorch implementation of the paper that we submitted for under review
+>Graph Self-Supervised Learning via Learnable View Augmentation for Collaborative Filtering
 
 >Anonymous Author(s)
 
