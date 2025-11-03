@@ -20,7 +20,7 @@ class LACF(nn.Module):
         self.all_t_list = data_config['all_t_list']
         self.A_in_shape = self.plain_adj.tocoo().shape
         self.A_indices = torch.tensor([self.all_h_list, self.all_t_list], dtype=torch.long).cuda()
-        self.D_indices = torch.tensor([list(range(self.n_users + self.n_items)), list(range(self.n_users + self.n_items))], dtype=torch.long).cuda() #[2, 54335]，元素为0~u+i
+        self.D_indices = torch.tensor([list(range(self.n_users + self.n_items)), list(range(self.n_users + self.n_items))], dtype=torch.long).cuda() 
         self.all_h_list = torch.LongTensor(self.all_h_list).cuda()
         self.all_t_list = torch.LongTensor(self.all_t_list).cuda()
         self.G_indices, self.G_values = self._cal_sparse_adj()
