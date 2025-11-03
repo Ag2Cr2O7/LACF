@@ -1,6 +1,6 @@
 # LACF
 This is the PyTorch implementation of the paper that we submitted for under review
->Graph Self-Supervised Learning via Learnable View Augmentation for Collaborative Filtering
+>Graph Self-Supervised Learning via Learnable View Augmentation for Recommender System
 
 >Anonymous Author(s)
 
@@ -31,6 +31,7 @@ python main.py --dataset amazon
 ```
 python main.py --dataset tmall 
 ```
+
 
 
 
