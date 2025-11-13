@@ -141,7 +141,6 @@ if __name__ == '__main__':
         print(perf_str)
         if uselog:logger.info(perf_str)
 
-    ## final test and report it in the paper
     if not os.path.exists('saved'):
         os.mkdir('saved')
     if args.save_model:
