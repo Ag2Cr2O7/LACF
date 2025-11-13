@@ -1,5 +1,5 @@
 import argparse
-def parse_args(dataset):
+def parse_args(dataset): 
     parser = argparse.ArgumentParser(description="Run LACFFinal.")
     parser.add_argument('--data_path', nargs='?', default='data/', help='Input data path.')
     parser.add_argument('--seed', type=int, default=1024, help='random seed')
@@ -22,7 +22,7 @@ def parse_args(dataset):
     parser.add_argument('--dropout', type=float, default=0.1, help='Regularizations.')
     parser.add_argument('--beta', type=float, default=0.2, help='Regularizations.')
     parser.add_argument('--device', type=str, default='cuda:0', help='Device.')
-
+    parser.add_argument('--use_log', type=bool, default=False, help='Use Log')
     return parser.parse_args()
 
 
