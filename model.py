@@ -26,11 +26,10 @@ class LACF(nn.Module):
         self.emb_dim = args.embed_size
         self.n_layers = args.n_layers  # 2
         self.temp = args.temp
-        self.lrec = args.lrecon
+        self.lrec = args.ssl_reg
         self.rt = args.temp
         self.batch_size = args.batch_size
         self.emb_reg = args.emb_reg  # 2e-5
-        self.cen_reg = args.cen_reg  # 0.005
         self.ssl_reg = args.ssl_reg  # 0.1
         self.auto_t = args.beta
         self.zu, self.zuu, self.zi, self.zii, self.zut, self.zit = [None] * self.n_layers, [None] * self.n_layers, [None] * self.n_layers, [None] * self.n_layers, [None] * self.n_layers, [None] * self.n_layers
@@ -50,6 +49,9 @@ class LACF(nn.Module):
             nn.ReLU(),
             nn.Linear(self.mlp_edge_model_dim, self.mlp_edge_model_dim)
         ) for i in range(self.n_layers)])
+        self.s_reg=0
+        self.f_reg=0
+        self.view_reg = 2e-2
 
 
     def _init_weight(self):
@@ -101,7 +103,7 @@ class LACF(nn.Module):
         # edge_score = edge_logits
         batch_aug_edge_weight = torch.sigmoid(edge_score).squeeze().detach()  # torch.Size([2344850])
         zqg = batch_aug_edge_weight
-        self.edge_reg += zqg.sum() / (self.n_users + self.n_items)
+        self.s_reg += zqg.sum() / (self.n_users + self.n_items)
         if is_norm:
             A_tensor = torch_sparse.SparseTensor(row=self.all_h_list, col=self.all_t_list, value=zqg,sparse_sizes=self.A_in_shape).to(self.device)
             D_scores_inv = A_tensor.sum(dim=1).pow(-1).nan_to_num(0, 0, 0).view(-1)
@@ -118,7 +120,7 @@ class LACF(nn.Module):
         emb_score = emb_score.to(self.device)
         emb_score = (emb_score + emb_logits) / self.auto_t
         batch_aug_emb = torch.sigmoid(emb_score).squeeze().detach()  # torch.Size([2344850])
-        self.node_reg += batch_aug_emb.sum() / (self.n_users + self.n_items)
+        self.f_reg += batch_aug_emb.sum() / (self.n_users + self.n_items)
         return batch_aug_emb * f_emb
 
     def inference1(self):
@@ -229,7 +231,9 @@ class LACF(nn.Module):
         u_embeddings_pre = self.user_embedding(users)
         pos_embeddings_pre = self.item_embedding(pos_items)
         neg_embeddings_pre = self.item_embedding(neg_items)
+        #emb_loss = (u_embeddings_pre.norm(2).pow(2) + pos_embeddings_pre.norm(2).pow(2) + neg_embeddings_pre.norm(2).pow(2))
         emb_loss = (u_embeddings_pre.norm(2).pow(2) + pos_embeddings_pre.norm(2).pow(2) + neg_embeddings_pre.norm(2).pow(2))
+        emb_loss = self.emb_reg * emb_loss + self.view_reg * (self.f_reg + self.s_reg)
         l_loss = self.ssl_reg * self.cse_loss(users, pos_items, self.zuu, self.zut, self.zii, self.zit, self.temp)
         g_loss = self.lrec * self.res_loss(users, pos_items, self.eu, self.eu1, self.ei, self.ei1, self.rt) + \
                    self.lrec * self.res_loss(users, pos_items, self.eu, self.eu2, self.ei, self.ei2, self.rt)
