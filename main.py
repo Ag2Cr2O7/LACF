@@ -31,15 +31,14 @@ def load_adjacency_list_data(adj_mat):
     all_h_list = list(tmp.row)
     all_t_list = list(tmp.col)
     all_v_list = list(tmp.data)
-
     return all_h_list, all_t_list, all_v_list
 
 if __name__ == '__main__':
     # Amazon 100 Gowalla 150 Tmall 200
-    device='cuda:0' if torch.cuda.is_available() else 'cpu'
     mydataset = 'gowalla'
-    mystr='Reconstruct'
+    mystr='LACF'
     args = parse_args(dataset=mydataset)
+    device=args.device if torch.cuda.is_available() else 'cpu'
     args.show_step=10
     uselog=False
     set_seed(args.seed)
@@ -49,7 +48,7 @@ if __name__ == '__main__':
     """
     curr_time = datetime.now()
     print(curr_time)
-    filename = mydataset + mystr + 'Lcl' + str(args.ssl_reg) + '温' + str(args.temp)
+    filename = mydataset + mystr + 'Lcl' + str(args.ssl_reg) + 'temp' + str(args.temp)
     if not os.path.exists('log'):
         os.mkdir('log')
     if uselog:
