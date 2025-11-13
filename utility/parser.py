@@ -1,6 +1,6 @@
 import argparse
 def parse_args(dataset):
-    parser = argparse.ArgumentParser(description="Run LACF.")
+    parser = argparse.ArgumentParser(description="Run LACFFinal.")
     parser.add_argument('--data_path', nargs='?', default='data/', help='Input data path.')
     parser.add_argument('--seed', type=int, default=1024, help='random seed')
     parser.add_argument('--dataset', nargs='?', default=dataset, help='Choose a dataset from {gowalla, amazon, tmall}')
@@ -15,10 +15,15 @@ def parse_args(dataset):
     parser.add_argument('--lr', type=float, default=0.001, help='Learning rate.')
     parser.add_argument('--emb_reg', type=float, default=1e-4, help='Regularizations.')
     parser.add_argument('--ssl_reg', type=float, default=1e-1, help='Reg weight for ssl loss')
+    parser.add_argument('--lrecon', type=float, default=1e-1, help='Reg weight for ssl loss')
     parser.add_argument('--n_layers', type=int, default=2, help='Layer numbers.')
     parser.add_argument('--temp', type=float, default=0.2, help='temperature in ssl loss')
     parser.add_argument('--show_step', type=int, default=10, help='Test every show_step epochs.')
     parser.add_argument('--Ks', nargs='?', default='[20, 40]', help='Metrics scale')
     parser.add_argument('--dropout', type=float, default=0.1, help='Regularizations.')
+    parser.add_argument('--beta', type=float, default=0.2, help='Regularizations.')
+    parser.add_argument('--device', type=str, default='cuda:0', help='Device.')
 
     return parser.parse_args()
+
+
