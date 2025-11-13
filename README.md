@@ -1,8 +1,6 @@
 # LACF
-This is the PyTorch implementation of the paper that we submitted for under review
+This is the reference PyTorch implementation of **LACF** 
 >Graph Self-Supervised Learning via Learnable View Augmentation for Recommender System
-
->Anonymous Author(s)
 
 ## Environment Requirement
 
@@ -27,9 +25,16 @@ python main.py --dataset gowalla
 python main.py --dataset amazon 
 ```
 
-* Tmall
+## Citation
+
+If you find this work helpful to your research, please kindly consider citing our paper.
 ```
-python main.py --dataset tmall 
+@article{xiang2025graph,
+  title={Graph Self-Supervised Learning via Learnable View Augmentation for Recommender System},
+  author={Xiang, Hengjing and Wang, Yuan and Xu, Yanfeng and Fang, Yang and Liu, Sen and Liu, Zhi and Ye, Guangnan},
+  journal={IEEE Transactions on Industrial Informatics},
+  year={2025}
+}
 ```
 
 
