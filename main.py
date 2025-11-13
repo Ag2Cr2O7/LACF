@@ -79,7 +79,7 @@ if __name__ == '__main__':
     config['n_users'] = data_generator.n_users
     config['n_items'] = data_generator.n_items
     plain_adj = data_generator.get_adj_mat() # (user+item,user+item)
-    #row,col和data转为list
+    #row,col data->list
     all_h_list, all_t_list, all_v_list = load_adjacency_list_data(plain_adj)
     config['plain_adj'] = plain_adj
     config['all_h_list'] = all_h_list
