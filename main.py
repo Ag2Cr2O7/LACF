@@ -105,7 +105,7 @@ if __name__ == '__main__':
             users, pos_items, neg_items = data_generator.mini_batch(idx)
             #
             batch_mf_loss, batch_g_loss, batch_l_loss, batch_reg_loss = _model(users, pos_items, neg_items)
-            batch_loss = batch_mf_loss, batch_g_loss, batch_l_loss, batch_reg_loss
+            batch_loss = batch_mf_loss+batch_g_loss+batch_l_loss+batch_reg_loss
 
             loss += float(batch_loss) / n_batch
             mf_loss += float(batch_mf_loss) / n_batch
@@ -137,8 +137,8 @@ if __name__ == '__main__':
 
         t3 = time()
 
-        perf_str = 'Epoch %2d [%.1fs + %.1fs]: train==[%.5f=%.5f + %.5f + %.5f + %.5f]\nTest-Recall=[%.4f, %.4f], Test-NDCG =[%.4f, %.4f]' % \
-                   (epoch, t2 - t1, t3 - t2, loss, mf_loss, emb_loss, cen_loss, cl_loss, test_ret['recall'][0], test_ret['recall'][1], test_ret['ndcg'][0], test_ret['ndcg'][1])
+        perf_str = 'Epoch %2d [%.1fs + %.1fs]: train==[%.5f=%.5f + %.5f + %.5f]\nTest-Recall=[%.4f, %.4f], Test-NDCG =[%.4f, %.4f]' % \
+                   (epoch, t2 - t1, t3 - t2, loss, mf_loss, g_loss, l_loss, test_ret['recall'][0], test_ret['recall'][1], test_ret['ndcg'][0], test_ret['ndcg'][1])
         print(perf_str)
         if uselog:logger.info(perf_str)
 
