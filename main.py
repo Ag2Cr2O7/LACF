@@ -40,7 +40,7 @@ if __name__ == '__main__':
     args = parse_args(dataset=mydataset)
     device=args.device if torch.cuda.is_available() else 'cpu'
     args.show_step=10
-    uselog=False
+    uselog=args.use_log
     set_seed(args.seed)
     """
     *********************************************************
@@ -98,19 +98,20 @@ if __name__ == '__main__':
         n_batch = int(np.ceil(n_samples / args.batch_size)) #mini_batch
 
         _model.train()
-        loss, mf_loss, emb_loss, cen_loss, cl_loss = 0., 0., 0., 0., 0.
+        loss, mf_loss, g_loss, l_loss, reg_loss = 0., 0., 0., 0., 0.
         for idx in tqdm(range(n_batch)):
             # [0,40)
             optimizer.zero_grad()
             users, pos_items, neg_items = data_generator.mini_batch(idx)
-            batch_mf_loss, batch_emb_loss, batch_cen_loss, batch_cl_loss = _model(users, pos_items, neg_items)
-            batch_loss = batch_mf_loss + batch_emb_loss + batch_cen_loss + batch_cl_loss
+            #
+            batch_mf_loss, batch_g_loss, batch_l_loss, batch_reg_loss = _model(users, pos_items, neg_items)
+            batch_loss = batch_mf_loss, batch_g_loss, batch_l_loss, batch_reg_loss
 
             loss += float(batch_loss) / n_batch
             mf_loss += float(batch_mf_loss) / n_batch
-            emb_loss += float(batch_emb_loss) / n_batch
-            cen_loss += float(batch_cen_loss) / n_batch
-            cl_loss += float(batch_cl_loss) / n_batch
+            g_loss += float(batch_g_loss) / n_batch
+            l_loss += float(batch_l_loss) / n_batch
+            reg_loss += float(batch_reg_loss) / n_batch
 
             batch_loss.backward()
             optimizer.step()
@@ -120,7 +121,7 @@ if __name__ == '__main__':
         torch.cuda.empty_cache()
 
         if epoch % args.show_step != 0 and epoch != args.epoch - 1:
-            perf_str = 'Epoch %2d [%.1fs]: train==[%.5f=%.5f + %.5f + %.5f + %.5f]' % (epoch, time() - t1, loss, mf_loss, emb_loss, cen_loss, cl_loss)
+            perf_str = 'Epoch %2d [%.1fs]: train==[%.5f=%.5f + %.5f + %.5f]' % (epoch, time() - t1, loss, mf_loss, g_loss, l_loss)
             print(perf_str)
             if uselog:logger.info(perf_str)
             continue
