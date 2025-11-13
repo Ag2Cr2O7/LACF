@@ -25,7 +25,6 @@ class LACF(nn.Module):
         self.G_indices, self.G_values = self._cal_sparse_adj()
         self.emb_dim = args.embed_size
         self.n_layers = args.n_layers  # 2
-        self.n_intents = args.n_intents  # 128
         self.temp = args.temp
         self.lrec = args.lrecon
         self.rt = args.temp
