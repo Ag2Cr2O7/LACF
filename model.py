@@ -7,9 +7,9 @@ import torch.nn.functional as F
 from tqdm import tqdm
 
 
-class lacffinal(nn.Module):
+class LACF(nn.Module):
     def __init__(self, data_config, args):
-        super(lacffinal, self).__init__()
+        super(LACF, self).__init__()
         print('LACFFinal')
         self.device = args.device
         self.n_users = data_config['n_users']
@@ -243,7 +243,7 @@ class lacffinal(nn.Module):
         deno = torch.sum(torch.exp(x @ y.T / temp), dim=1)
         return -torch.log(mole / (deno + 1e-8) + 1e-8).mean()
 
-    def res_loss(self, user, pos, u, u2, i, i2, t):  # 最终的嵌入，掩码的序号
+    def res_loss(self, user, pos, u, u2, i, i2, t):  
         recon_u, recon_u2 = u[user], u2[user]
         recon_i, recon_i2 = i[pos], i2[pos]
         recon_lossu = self.ssl_con_loss(recon_u, recon_u2, t)  # /pos.shape[0]
