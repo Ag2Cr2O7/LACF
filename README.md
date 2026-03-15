@@ -29,11 +29,15 @@ python main.py --dataset amazon
 
 If you find this work helpful to your research, please kindly consider citing our paper.
 ```
-@article{xiang2025graph,
+@article{xiang2026graph,
   title={Graph Self-Supervised Learning via Learnable View Augmentation for Recommender System},
-  author={Xiang, Hengjing and Wang, Yuan and Xu, Yanfeng and Fang, Yang and Liu, Sen and Liu, Zhi and Ye, Guangnan},
+  author={Xiang, Hengjing and Wang, Yuan and Xu, Yanfeng and Liu, Sen and Fang, Yang and Liu, Zhi and Ye, Guangnan},
   journal={IEEE Transactions on Industrial Informatics},
-  year={2025}
+  volume={22},
+  number={3},
+  pages={2087-2098},
+  year={2026},
+  publisher={IEEE}
 }
 ```
 
